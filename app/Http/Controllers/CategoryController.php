@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Str;
+
 
 class CategoryController extends Controller
 {
@@ -24,9 +25,35 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-     return $request->all();
+        try {
+            if($request->hasFile('photo')){
+                $image = $request->file('photo');
+                $imageName =$request->slug.'-'.Str::random(15).".".$image->getClientOriginalExtension();
+                $image->move(public_path('/images/category/'),$imageName);
+            }else{
+                $imageName = null;
+            }
+            Category::create([
+                'name' => $request->name,
+                'slug' => $request->slug,
+                'serial' => $request->serial,
+                'status' => $request->status,
+                'photo' => $imageName,
+                'description' => $request->description,
+                'user_id' => auth()->id(),
+            ]);
 
+            return response()->json([
+                'msg' => "Category successfully created.",
+                'cls' => "success"
+              ],200);
 
+            } catch (\Exception $e) {
+            return response()->json([
+            'msg' => "Oops ! Something went really wrong!",
+             'cls' => "error"
+            ],500);
+            }
     }
 
     /**
