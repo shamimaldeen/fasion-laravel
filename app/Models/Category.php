@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
+
+   public const image_path = '/images/category/';
     protected $fillable = [
         'name',
         'slug',
@@ -18,9 +20,4 @@ class Category extends Model
         'user_id',
     ];
 
-
-    public function storeCategory(array $input)
-    {
-       return  self::query()->create($input);
-    }
 }
