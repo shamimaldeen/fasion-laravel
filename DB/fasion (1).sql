@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 18, 2023 at 10:13 PM
+-- Generation Time: Oct 31, 2023 at 06:25 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -20,6 +20,44 @@ SET time_zone = "+00:00";
 --
 -- Database: `fasion`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categories`
+--
+
+CREATE TABLE `categories` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `slug` varchar(255) DEFAULT NULL,
+  `serial` int(11) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `photo` varchar(255) DEFAULT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`id`, `name`, `slug`, `serial`, `status`, `description`, `photo`, `user_id`, `created_at`, `updated_at`) VALUES
+(23, 'i Phone', 'i-phone', 1, 0, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\noptio, eaque rerum! Provide', 'SQM0Z8ehvzqblZGhZsJHeoh0cccYJpAK.jpg', 1, '2023-10-24 13:45:50', '2023-10-24 13:45:50'),
+(24, 'Samsung', 'samsung', 2, 0, 'Samsung Phone description will be here', 'Cf0O4UTZpENVoBvHoDqPPFo4J86POfGe.jpg', 1, '2023-10-24 13:47:55', '2023-10-24 13:47:55'),
+(26, 'Nokia Updatedd', 'nokia-updatedd', 34, 1, 'Nokia Phone Description', 'nokia-updatedd-pEFauWGRgj4UHOL.jpg', 1, '2023-10-24 13:52:21', '2023-10-31 11:13:05'),
+(27, 'RedME', 'redme', 6, 1, 'gfdg', NULL, 1, '2023-10-24 13:53:43', '2023-10-30 13:29:43'),
+(28, 'fdsfdsf', 'fdsfdsf', 3, 1, 'fdsfsaf', 'fdsfdsf-nUHAIOqKNrlStvZ.jpg', 1, '2023-10-24 14:00:47', '2023-10-24 14:00:47'),
+(29, 'fdsfsd', 'fdsfsd', 42, 1, 'fsdfsd', 'fdsfsd-OeXWrjgYxgze2xX.jpg', 1, '2023-10-24 14:03:25', '2023-10-24 14:03:25'),
+(30, 'gggfdg', 'gggfdg', 4, 1, 'gfgfdg', 'gggfdg-xZikHBux9mfqTF3.jpg', 1, '2023-10-24 14:07:55', '2023-10-24 14:07:55'),
+(31, 'gfdsg', 'gfdsg', 3, 1, 'gfdgf', 'gfdsg-P1gJo6Tkzzwclfy.jpg', 1, '2023-10-24 14:36:47', '2023-10-24 14:36:47'),
+(32, 'fsdfds', 'fsdfds', 65, 1, 'gfh', 'fsdfds-VCHwp31AaqX0rmY.jpg', 1, '2023-10-24 14:48:13', '2023-10-24 14:48:13'),
+(39, 'bv', 'bv', 3, 1, 'gfdsgdfg', 'bv-XCrNBXmrUhC2rOz.jpg', 1, '2023-10-28 15:24:13', '2023-10-28 15:24:13'),
+(40, 'pppppppp', 'pppppppp', 4, 1, 'gfdgfdg', 'pppppppp-VxvPw0lsVr2EbPt.jpg', 1, '2023-10-28 15:24:52', '2023-10-28 15:24:52'),
+(44, 'kkk', 'kkk', 76, 1, 'kk', 'kkk-pl7HBJ4OD5ZdcTw.jpg', 1, '2023-10-30 12:10:07', '2023-10-30 12:10:07'),
+(45, 'test Category updated', 'test-category-updated', 7, 1, 'test Category Updated', 'test-category-updated-9BnBbM8EI8WxJqG.jpg', 1, '2023-10-31 10:58:41', '2023-10-31 11:11:40');
 
 -- --------------------------------------------------------
 
@@ -57,7 +95,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (1, '2014_10_12_000000_create_users_table', 1),
 (2, '2014_10_12_100000_create_password_reset_tokens_table', 1),
 (3, '2019_08_19_000000_create_failed_jobs_table', 1),
-(4, '2019_12_14_000001_create_personal_access_tokens_table', 1);
+(4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
+(6, '2023_10_21_174744_create_categories_table', 2);
 
 -- --------------------------------------------------------
 
@@ -95,7 +134,8 @@ CREATE TABLE `personal_access_tokens` (
 --
 
 INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
-(42, 'App\\Models\\User', 1, 'admin@gmail.com', 'c41b23494850f3d53681eb01b5abec82ef0966b723b57f0d28e446498e30525d', '[\"*\"]', NULL, NULL, '2023-10-18 14:11:49', '2023-10-18 14:11:49');
+(76, 'App\\Models\\User', 1, 'admin@gmail.com', '6671d82269e89afd3245ef073e0e8bd691179c9cb3a15a2919c2ad0713992486', '[\"*\"]', '2023-10-31 11:25:18', NULL, '2023-10-24 09:41:04', '2023-10-31 11:25:18'),
+(77, 'App\\Models\\User', 1, 'admin@gmail.com', 'a9ec9bbcfd7957d4f85aeafc7fce8092a50b134f902f232308fb3c81c3c5621c', '[\"*\"]', '2023-10-24 09:44:24', NULL, '2023-10-24 09:43:52', '2023-10-24 09:44:24');
 
 -- --------------------------------------------------------
 
@@ -127,6 +167,13 @@ INSERT INTO `users` (`id`, `name`, `email`, `phone`, `email_verified_at`, `passw
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `categories_user_id_foreign` (`user_id`);
 
 --
 -- Indexes for table `failed_jobs`
@@ -168,6 +215,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+
+--
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -177,19 +230,29 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `categories`
+--
+ALTER TABLE `categories`
+  ADD CONSTRAINT `categories_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

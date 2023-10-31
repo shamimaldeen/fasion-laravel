@@ -89,14 +89,38 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         try {
-           $data =  $request->all();
-            $catego  =   Category::find($request->id);
-            $catego->update($data);
 
-        return response()->json([
-            'msg' => "Category successfully Updated.",
-            'cls' => "success"
-        ],200);
+            if($request->hasFile('photo')){
+
+                if (!empty($category->photo)){
+                    $path = public_path(Category::image_path).$category->photo;
+                    if ($category->photo != '' && file_exists($path)){
+                        unlink($path);
+                    }
+                }
+
+                $image = $request->file('photo');
+                $imageName =$request->slug.'-'.Str::random(15).".".$image->getClientOriginalExtension();
+                $image->move(public_path(Category::image_path),$imageName);
+            }else{
+                $imageName = $category->photo;
+            }
+
+            $category->update([
+                'name' => $request->name,
+                'slug' => $request->slug,
+                'serial' => $request->serial,
+                'status' => $request->status,
+                'photo' => $imageName,
+                'description' => $request->description,
+                'user_id' => auth()->id(),
+            ]);
+
+            return response()->json([
+                'msg' => "Category successfully Updated.",
+                'cls' => "success"
+            ],200);
+
         } catch (\Exception $e) {
             return response()->json([
                 'msg' => "Oops ! Something went really wrong!",
