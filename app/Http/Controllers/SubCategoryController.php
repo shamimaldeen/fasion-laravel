@@ -1,59 +1,61 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Resources\CategoryResource;
-use App\Http\Resources\CategoryUdateResource;
-use App\Models\Category;
-use App\Http\Requests\StoreCategoryRequest;
-use App\Http\Requests\UpdateCategoryRequest;
+
+use App\Http\Resources\SubCategoryResource;
+use App\Http\Resources\SubCategoryUpdateResource;
+use App\Models\SubCategory;
+use App\Http\Requests\StoreSubCategoryRequest;
+use App\Http\Requests\UpdateSubCategoryRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-
-class CategoryController extends Controller
+class SubCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-
-
     public function index(Request $request)
     {
-
+       // return $request->all();
         $per_page = $request->per_page ?? 10;
-         $search = $request->search;
+        $search = $request->search;
+        $category_id = $request->category_id;
 
-         $query = Category::query();
+        $query = SubCategory::query();
 
-         if ($search){
-             $query->where('name','like','%'.$request->search.'%');
-         }
+        if ($search){
+            $query->where('name','like','%'.$request->search.'%');
+        }
+        if ($category_id){
+            $query->where('category_id',$request->category_id);
+        }
 
         if ($request->direction){
             $query->orderBy('id',$request->direction ?? 'asc');
         }
-        $categories = $query->where('status',$request->status)->paginate($per_page);
-         return CategoryResource::collection($categories);
+        $subCategories = $query->with('category:id,name')->paginate($per_page);
 
+        return SubCategoryResource::collection($subCategories);
     }
-
 
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCategoryRequest $request)
+    public function store(StoreSubCategoryRequest $request)
     {
         try {
             if($request->hasFile('photo')){
                 $image = $request->file('photo');
                 $imageName =$request->slug.'-'.Str::random(15).".".$image->getClientOriginalExtension();
-                $image->move(public_path(Category::image_path),$imageName);
+                $image->move(public_path(SubCategory::image_path),$imageName);
             }else{
                 $imageName = null;
             }
-            Category::create([
+            SubCategory::create([
                 'name' => $request->name,
+                'category_id' => $request->category_id,
                 'slug' => $request->slug,
                 'serial' => $request->serial,
                 'status' => $request->status,
@@ -63,64 +65,7 @@ class CategoryController extends Controller
             ]);
 
             return response()->json([
-                'msg' => "Category successfully created.",
-                'cls' => "success"
-              ],200);
-
-            } catch (\Exception $e) {
-            return response()->json([
-            'msg' => "Oops ! Something went really wrong!",
-             'cls' => "error"
-            ],500);
-            }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Category $category)
-    {
-        return  new CategoryUdateResource($category);
-    }
-
-
-
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Category $category)
-    {
-        try {
-
-            if($request->hasFile('photo')){
-
-                if (!empty($category->photo)){
-                    $path = public_path(Category::image_path).$category->photo;
-                    if ($category->photo != '' && file_exists($path)){
-                        unlink($path);
-                    }
-                }
-
-                $image = $request->file('photo');
-                $imageName =$request->slug.'-'.Str::random(15).".".$image->getClientOriginalExtension();
-                $image->move(public_path(Category::image_path),$imageName);
-            }else{
-                $imageName = $category->photo;
-            }
-
-            $category->update([
-                'name' => $request->name,
-                'slug' => $request->slug,
-                'serial' => $request->serial,
-                'status' => $request->status,
-                'photo' => $imageName,
-                'description' => $request->description,
-                'user_id' => auth()->id(),
-            ]);
-
-            return response()->json([
-                'msg' => "Category successfully Updated.",
+                'msg' => "Sub Category successfully created.",
                 'cls' => "success"
             ],200);
 
@@ -130,32 +75,85 @@ class CategoryController extends Controller
                 'cls' => "error"
             ],500);
         }
+    }
 
+    /**
+     * Display the specified resource.
+     */
+    public function show($id)
+    {
+         $subCategory = SubCategory::find($id);
+
+        return  new SubCategoryUpdateResource($subCategory);
+    }
+
+
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateSubCategoryRequest $request, $id)
+    {
+        try {
+            $subCategory = SubCategory::find($id);
+
+            if($request->hasFile('photo')){
+
+                if (!empty($subCategory->photo)){
+                    $path = public_path(SubCategory::image_path).$subCategory->photo;
+                    if ($subCategory->photo != '' && file_exists($path)){
+                        unlink($path);
+                    }
+                }
+
+                $image = $request->file('photo');
+                $imageName =$request->slug.'-'.Str::random(15).".".$image->getClientOriginalExtension();
+                $image->move(public_path(SubCategory::image_path),$imageName);
+            }else{
+                $imageName = $subCategory->photo;
+            }
+
+            $subCategory->update([
+                'name' => $request->name,
+                'category_id' => $request->category_id,
+                'slug' => $request->slug,
+                'serial' => $request->serial,
+                'status' => $request->status,
+                'photo' => $imageName,
+                'description' => $request->description,
+                'user_id' => auth()->id(),
+            ]);
+
+            return response()->json([
+                'msg' => "Sub Category successfully Updated.",
+                'cls' => "success"
+            ],200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'msg' => "Oops ! Something went really wrong!",
+                'cls' => "error"
+            ],500);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
-       if (!empty($category->photo)){
-           $path = public_path(Category::image_path).$category->photo;
-           if ($category->photo != '' && file_exists($path)){
-               unlink($path);
-           }
-       }
-       $category->delete();
+        $subCategory = SubCategory::find($id);
+        if (!empty($subCategory->photo)){
+            $path = public_path(SubCategory::image_path).$subCategory->photo;
+            if ($subCategory->photo != '' && file_exists($path)){
+                unlink($path);
+            }
+        }
+        $subCategory->delete();
 
         return response()->json([
-            'msg' => "Category Deleted Successfully.",
+            'msg' => "Sub Category Deleted Successfully.",
             'cls' => "warning"
         ],200);
     }
-
-    public function getAllCategory()
-    {
-        $categories =  Category::where('status',1)->select('id','name')->get();
-        return $categories;
-    }
-
 }

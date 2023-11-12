@@ -5,18 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+
+class Supplier extends Model
 {
     use HasFactory;
-
-   public const image_path = '/images/category/';
+    public const image_path = '/images/supplier/';
     protected $fillable = [
         'name',
-        'slug',
-        'serial',
+        'email',
+        'contact',
         'status',
-        'description',
-        'photo',
+        'logo',
         'user_id',
     ];
 
@@ -25,4 +24,8 @@ class Category extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function addresses()
+    {
+        return $this->morphOne(Address::class,'addressable');
+    }
 }
