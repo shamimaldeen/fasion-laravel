@@ -100,14 +100,12 @@ class BrandController extends Controller
         try {
             $brand = Brand::find($id);
             if($request->hasFile('logo')){
-
                 if (!empty($brand->logo)){
                     $path = public_path(Brand::image_path).$brand->logo;
                     if ($brand->logo != '' && file_exists($path)){
                         unlink($path);
                     }
                 }
-
                 $logo = $request->file('logo');
                 $imageName =$request->slug.'-'.Str::random(15).".".$logo->getClientOriginalExtension();
                 $logo->move(public_path(Brand::image_path),$imageName);

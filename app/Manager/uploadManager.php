@@ -10,11 +10,20 @@
 
  class uploadManager{
 
-     public static function uploadImage(string $imageName,string $path,string $file)
-     {
-         $file->move(public_path($path),$imageName);
-         return $imageName;
+//     public static function uploadImage(string $imageName,string $path,string $file)
+//     {
+//         $file->move(public_path($path),$imageName);
+//         return $imageName;
+//     }
+
+
+     public function getCountry(){
+
      }
+
+
+
+
 
 
      // Location Data Save

@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateSupplierRequest extends FormRequest
+class UpdateCountryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -22,15 +22,7 @@ class UpdateSupplierRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => "required|string",
-            "email" => "string",
-            "contact" => "required|string",
-            "landmark" => "required|string",
-            "status" => "required|numeric",
-            "address" => "required|string",
-            "division_id" => "required|numeric",
-            "district_id" => "required|numeric",
-            "area_id" => "required|numeric",
+            //
         ];
     }
 }

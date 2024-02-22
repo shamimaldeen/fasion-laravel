@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AddressListResource extends JsonResource
+class AttributeResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,11 +16,8 @@ class AddressListResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'address'=>$this->address,
-            'landmark'=>$this->landmark,
-            'division'=>$this->division?->name,
-            'district'=>$this->district?->name,
-            'area'=>$this->area?->name,
+            'name'=>$this->name,
+            'status'=>$this->status,
         ];
     }
 }
