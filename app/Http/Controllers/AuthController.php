@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthRequest;
+use App\Http\Resources\ShopResource;
+use App\Models\SalesManager;
+use App\Models\Shop;
 use App\Models\User;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -14,18 +16,34 @@ class AuthController extends Controller
     /**
      * @throws ValidationException
      */
-  final  public  function  login(AuthRequest $request): JsonResponse
+    public  function  login(AuthRequest $request)
     {
-        $user = (new User())->getUserByEmailOrPhone($request->all());
 
+
+        if ($request->user_type == 1){
+            $user = (new User())->getUserByEmailOrPhone($request->all());
+            $contact = $user->phone;
+        }else{
+            $user = (new SalesManager())->getUserByEmailOrPhone($request->all());
+            $contact = $user->contact;
+        }
         if ($user && Hash::check($request->input('password'),$user->password))
         {
             $user_data['token'] = $user->createToken($user->email)->plainTextToken;
             $user_data['name'] = $user->name;
             $user_data['email'] = $user->email;
-            $user_data['phone'] = $user->phone;
-            $user_data['role_id'] = $user->role_id;
+            $user_data['phone'] = $contact;
+            $user_data['role_id'] = $request->user_type;
             $user_data['photo'] = $user->photo;
+            $user_data['user_type'] = $request->user_type;
+
+            if ($request->user_type == 1){
+                $branch = null;
+                $user_data['branch'] = $branch;
+            }else{
+                $branch = (new Shop())->getShopDetailsById($user->shop_id);
+                $user_data['branch'] =  ShopResource::collection($branch);
+            }
             return response()->json($user_data);
         }
         throw ValidationException::withMessages([

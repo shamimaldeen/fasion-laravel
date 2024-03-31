@@ -156,4 +156,10 @@ class SubCategoryController extends Controller
             'cls' => "warning"
         ],200);
     }
+
+    public function getAllSubCategory($category_id)
+    {
+        $subCategories =  SubCategory::where('status',1)->where('category_id',$category_id)->select('id','name')->get();
+        return $subCategories;
+    }
 }

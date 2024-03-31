@@ -63,4 +63,10 @@ class CountryController extends Controller
     {
         //
     }
+
+    public function getAllCountry()
+    {
+        $countries =  Country::where('status',1)->select('id','name')->orderBy('name','ASC')->get();
+        return $countries;
+    }
 }

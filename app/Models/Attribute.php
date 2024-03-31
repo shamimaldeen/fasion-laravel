@@ -18,4 +18,9 @@ class Attribute extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function value()
+    {
+        return $this->hasMany(AttributeValue::class);
+    }
 }

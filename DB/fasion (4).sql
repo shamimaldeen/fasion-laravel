@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 22, 2024 at 03:09 AM
+-- Generation Time: Mar 31, 2024 at 10:17 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -37,7 +37,7 @@ CREATE TABLE `addresses` (
   `area_id` bigint(20) UNSIGNED NOT NULL,
   `landmark` varchar(255) DEFAULT NULL,
   `status` tinyint(4) DEFAULT NULL,
-  `type` tinyint(4) DEFAULT NULL COMMENT '1 = supplier Address,2 = customer present,3 = customer Permanent',
+  `type` tinyint(4) DEFAULT NULL COMMENT '1 = supplier Address,2 = customer present,3 = customer Permanent,4=Sales Manager\r\n',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -49,7 +49,8 @@ CREATE TABLE `addresses` (
 INSERT INTO `addresses` (`id`, `addressable_type`, `addressable_id`, `address`, `division_id`, `district_id`, `area_id`, `landmark`, `status`, `type`, `created_at`, `updated_at`) VALUES
 (2, 'App\\Models\\Supplier', 10, 'shewrapara,mirpur,Dhaka', 3, 73, 977, 'Shewrapara', 1, 1, '2023-11-05 12:16:02', '2023-11-20 12:33:27'),
 (3, 'App\\Models\\Supplier', 11, 'shewrapara', 5, 144, 2675, 'kresnopur', 1, 1, '2023-11-05 12:27:25', '2023-11-20 12:31:45'),
-(4, 'App\\Models\\Supplier', 12, 'mirpur', 3, 86, 1894, 'mirpur', 1, 1, '2023-11-11 08:27:43', '2023-11-11 08:27:43');
+(4, 'App\\Models\\Shop', 1, 'mirpur', 3, 86, 1894, 'mirpur', 1, 1, '2023-11-11 08:27:43', '2024-03-23 09:07:20'),
+(15, 'App\\Models\\SalesManager', 4, 'dhanmondi-12,dhaka', 3, 74, 1134, 'Dhanmondi', 1, 4, '2024-03-22 15:08:06', '2024-03-22 15:08:06');
 
 -- --------------------------------------------------------
 
@@ -3767,7 +3768,8 @@ CREATE TABLE `brands` (
 --
 
 INSERT INTO `brands` (`id`, `name`, `slug`, `serial`, `status`, `description`, `logo`, `user_id`, `created_at`, `updated_at`) VALUES
-(1, 'Nokia Updated', 'nokia-updated', 110, 1, 'test updated', 'nokia-updated-j23708GhCGnMYfV.jpg', 1, '2023-11-02 15:58:58', '2023-11-03 05:23:57');
+(1, 'Nokia', 'nokia', 110, 1, 'test updated', 'nokia-updated-j23708GhCGnMYfV.jpg', 1, '2023-11-02 15:58:58', '2024-02-22 14:41:47'),
+(3, 'Apple', 'apple', 5, 1, 'This is Apple  Brand', 'apple-qXSd1nfhcxCbXlS.jpg', 1, '2024-02-22 14:42:28', '2024-02-22 14:42:28');
 
 -- --------------------------------------------------------
 
@@ -3806,7 +3808,9 @@ INSERT INTO `categories` (`id`, `name`, `slug`, `serial`, `status`, `description
 (40, 'TV & Home Appliances', 'tv-&-home-appliances', 4, 1, 'gfdgfdg', 'tv-&-home-appliances-9CbtMFBloja86SE.jpg', 1, '2023-10-28 15:24:52', '2023-11-01 12:19:10'),
 (47, 'Skin Care', 'skin-care', 1, 1, 'test', 'skin-care-WrZrPRTmUs7VpVJ.jpg', 1, '2023-11-01 16:02:32', '2023-11-01 16:02:32'),
 (48, 'Skin Care', 'skin-care', 1, 1, 'test', 'skin-care-nG5Lzmir3wsK0QR.jpg', 1, '2023-11-01 16:05:45', '2023-11-01 16:05:45'),
-(49, 'Skin Care', 'skin-care', 1, 1, 'Skin Care Details', 'skin-care-PyYVAcHC9VQBoa7.jpg', 1, '2023-11-01 16:08:00', '2023-11-01 16:08:00');
+(49, 'Skin Care', 'skin-care', 1, 1, 'Skin Care Details', 'skin-care-PyYVAcHC9VQBoa7.jpg', 1, '2023-11-01 16:08:00', '2023-11-01 16:08:00'),
+(50, 'fgdsf', 'fgdsf', 3, 1, 'fdf', 'fgdsf-EbTcS3L9bnZGkaC.jpg', 1, '2024-03-06 14:00:28', '2024-03-06 14:00:28'),
+(51, 'jh', 'jh', 6, 1, 'jhgjghj', 'jh-lOahREIP8OGXxsN.jpg', 1, '2024-03-08 11:15:52', '2024-03-08 11:15:52');
 
 -- --------------------------------------------------------
 
@@ -4081,6 +4085,32 @@ INSERT INTO `countries` (`id`, `name`, `status`, `created_at`, `updated_at`) VAL
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `customers`
+--
+
+CREATE TABLE `customers` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `status` tinyint(4) DEFAULT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `customers`
+--
+
+INSERT INTO `customers` (`id`, `name`, `email`, `phone`, `address`, `status`, `user_id`, `created_at`, `updated_at`) VALUES
+(2, 'MD. Mamun khan', 'mamun@gmail.com', '01738455411', '15-Dhanmondhi,dhaka-1200,Bangladesh', 1, 1, '2024-03-20 12:59:47', '2024-03-20 13:19:33'),
+(3, 'MD.kamal khan', 'kamal@gmail.com', '01738455452', '15-Dhanmondhi,dhaka-1200,Bangladesh', 1, 1, '2024-03-20 13:00:32', '2024-03-20 13:00:32');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `districts`
 --
 
@@ -4347,7 +4377,88 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (18, '2023_11_04_195844_create_addresses_table', 7),
 (19, '2023_11_21_192501_create_attributes_table', 8),
 (20, '2024_02_21_083820_create_attribute_values_table', 9),
-(21, '2024_02_21_185856_create_countries_table', 10);
+(21, '2024_02_21_185856_create_countries_table', 10),
+(22, '2024_03_03_190948_create_products_table', 11),
+(23, '2024_03_03_194023_create_product_attributes_table', 12),
+(24, '2024_03_03_194400_create_product_specifications_table', 12),
+(25, '2024_03_08_165348_create_product_photos_table', 13),
+(26, '2024_03_16_191239_create_shops_table', 14),
+(27, '2024_03_16_232728_create_sales_managers_table', 15),
+(29, '2024_03_20_183528_create_customers_table', 16),
+(30, '2024_03_24_195002_create_payment_methods_table', 17),
+(32, '2024_03_24_199737_create_orders_table', 18),
+(34, '2024_03_25_181551_create_order_details_table', 19),
+(45, '2024_03_25_205951_create_transactions_table', 20);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `customer_id` bigint(20) UNSIGNED NOT NULL,
+  `sales_manager_id` bigint(20) UNSIGNED NOT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `sub_total` int(11) DEFAULT NULL,
+  `quantity` int(11) DEFAULT NULL,
+  `discount` int(11) DEFAULT NULL,
+  `total` int(11) DEFAULT NULL,
+  `paid_amount` int(11) DEFAULT NULL,
+  `due_amount` int(11) DEFAULT NULL,
+  `order_number` varchar(255) NOT NULL,
+  `order_status` tinyint(4) DEFAULT NULL,
+  `payment_method_id` bigint(20) UNSIGNED NOT NULL,
+  `payment_status` tinyint(4) DEFAULT NULL,
+  `shipment_status` tinyint(4) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `customer_id`, `sales_manager_id`, `shop_id`, `sub_total`, `quantity`, `discount`, `total`, `paid_amount`, `due_amount`, `order_number`, `order_status`, `payment_method_id`, `payment_status`, `shipment_status`, `created_at`, `updated_at`) VALUES
+(47, 3, 4, 1, 15000, 1, 0, 15000, 15000, 0, 'FBD1260324762', 3, 2, 1, 1, '2024-03-26 15:04:26', '2024-03-26 15:04:26'),
+(48, 3, 4, 1, 15000, 1, 0, 15000, 15000, 0, 'FBD1260324312', 3, 1, 1, 1, '2024-03-26 15:04:55', '2024-03-26 15:04:55');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_details`
+--
+
+CREATE TABLE `order_details` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `order_id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `quantity` int(11) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `sku` varchar(255) DEFAULT NULL,
+  `photo` varchar(255) DEFAULT NULL,
+  `cost` int(11) DEFAULT NULL,
+  `discount_fixed` int(11) DEFAULT NULL,
+  `discount_percent` int(11) DEFAULT NULL,
+  `discount_start` timestamp NULL DEFAULT NULL,
+  `discount_end` timestamp NULL DEFAULT NULL,
+  `price` int(11) DEFAULT NULL,
+  `brand_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `category_id` bigint(20) UNSIGNED NOT NULL,
+  `sub_category_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `supplier_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `order_details`
+--
+
+INSERT INTO `order_details` (`id`, `order_id`, `product_id`, `quantity`, `name`, `sku`, `photo`, `cost`, `discount_fixed`, `discount_percent`, `discount_start`, `discount_end`, `price`, `brand_id`, `category_id`, `sub_category_id`, `supplier_id`, `created_at`, `updated_at`) VALUES
+(45, 47, 10, 1, 'Oppo-phone', 'oppo-15', NULL, 10000, 500, 10, '2024-03-06 17:24:00', '2024-03-06 17:25:00', 15000, 1, 27, 3, 10, '2024-03-26 15:04:26', '2024-03-26 15:04:26'),
+(46, 48, 10, 1, 'Oppo-phone', 'oppo-15', NULL, 10000, 500, 10, '2024-03-06 17:24:00', '2024-03-06 17:25:00', 15000, 1, 27, 3, 10, '2024-03-26 15:04:55', '2024-03-26 15:04:55');
 
 -- --------------------------------------------------------
 
@@ -4360,6 +4471,31 @@ CREATE TABLE `password_reset_tokens` (
   `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payment_methods`
+--
+
+CREATE TABLE `payment_methods` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `account_number` varchar(255) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `payment_methods`
+--
+
+INSERT INTO `payment_methods` (`id`, `name`, `account_number`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Cash', '', 1, NULL, NULL),
+(2, 'bKash', '01738298777', 1, NULL, NULL),
+(3, 'Nagad', '01738298777', 1, NULL, NULL),
+(4, 'Roket', '01738298777', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -4385,9 +4521,179 @@ CREATE TABLE `personal_access_tokens` (
 --
 
 INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
-(76, 'App\\Models\\User', 1, 'admin@gmail.com', '6671d82269e89afd3245ef073e0e8bd691179c9cb3a15a2919c2ad0713992486', '[\"*\"]', '2023-11-25 11:21:38', NULL, '2023-10-24 09:41:04', '2023-11-25 11:21:38'),
-(77, 'App\\Models\\User', 1, 'admin@gmail.com', 'a9ec9bbcfd7957d4f85aeafc7fce8092a50b134f902f232308fb3c81c3c5621c', '[\"*\"]', '2023-10-24 09:44:24', NULL, '2023-10-24 09:43:52', '2023-10-24 09:44:24'),
-(78, 'App\\Models\\User', 1, 'admin@gmail.com', '8c1898fe51476ab68a750cc0acd81505f2fd3961693c4bca3d21f82dcdad66ff', '[\"*\"]', '2024-02-21 12:20:50', NULL, '2024-02-20 09:12:25', '2024-02-21 12:20:50');
+(125, 'App\\Models\\SalesManager', 2, 'mamun@gmail.com', 'ae4f79c7f29a84b62eee045bdf1c0dc668a7c4d1552ae78320ed42ab0eb7330f', '[\"*\"]', NULL, NULL, '2024-03-22 14:28:43', '2024-03-22 14:28:43'),
+(126, 'App\\Models\\SalesManager', 2, 'mamun@gmail.com', '92b1937becb61357bb1890143b1820832c019f4ed7038bd852628015185ef1cd', '[\"*\"]', NULL, NULL, '2024-03-22 14:28:59', '2024-03-22 14:28:59'),
+(173, 'App\\Models\\SalesManager', 4, 'dhanmondifasion@gmail.com', 'fd62a09dbcc743319f59041586b0c119a1330c7901740c72f4bb35a5a20949b9', '[\"*\"]', NULL, NULL, '2024-03-23 09:22:51', '2024-03-23 09:22:51'),
+(174, 'App\\Models\\SalesManager', 4, 'dhanmondifasion@gmail.com', '1c2d8af6d50798455325e7d7a981cc1c556883b63e6017b8f8301db48abc78f0', '[\"*\"]', '2024-03-31 14:09:05', NULL, '2024-03-23 09:24:04', '2024-03-31 14:09:05');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
+CREATE TABLE `products` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `brand_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `category_id` bigint(20) UNSIGNED NOT NULL,
+  `sub_category_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `supplier_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `country_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `cost` int(11) DEFAULT NULL,
+  `price` int(11) DEFAULT NULL,
+  `discount_percent` int(11) DEFAULT NULL,
+  `discount_fixed` int(11) DEFAULT NULL,
+  `discount_start` timestamp NULL DEFAULT NULL,
+  `discount_end` timestamp NULL DEFAULT NULL,
+  `stock` int(11) DEFAULT NULL,
+  `sku` varchar(255) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `created_by_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `updated_by_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `status` tinyint(4) DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `name`, `slug`, `brand_id`, `category_id`, `sub_category_id`, `supplier_id`, `country_id`, `cost`, `price`, `discount_percent`, `discount_fixed`, `discount_start`, `discount_end`, `stock`, `sku`, `description`, `created_by_id`, `updated_by_id`, `status`, `created_at`, `updated_at`) VALUES
+(9, 'Samsung Phone', 'samsung-phone', 1, 27, 3, 11, 93, 10000, 15000, 10, 1000, '2024-02-29 18:31:00', '2024-03-30 18:31:00', 99, 'samsung-15', 'This is Samsumg Phone', 1, NULL, 1, '2024-03-05 12:32:13', '2024-03-26 14:07:45'),
+(10, 'Oppo-phone', 'oppo-phone', 1, 27, 3, 10, 93, 10000, 15000, 10, 500, '2024-03-06 17:24:00', '2024-03-06 17:25:00', 61, 'oppo-15', 'test', 1, NULL, 1, '2024-03-06 11:25:21', '2024-03-26 15:04:55'),
+(13, 'I phone', 'i-phone', 3, 27, 3, 11, 19, 45000, 50000, 10, 1000, '2024-02-29 19:21:00', '2024-03-30 19:21:00', 2, 'ip-15iTT', 'i Phone product', 1, NULL, 1, '2024-03-19 13:21:49', '2024-03-26 14:14:05');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_attributes`
+--
+
+CREATE TABLE `product_attributes` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `attribute_id` bigint(20) UNSIGNED NOT NULL,
+  `attribute_value_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `product_attributes`
+--
+
+INSERT INTO `product_attributes` (`id`, `product_id`, `attribute_id`, `attribute_value_id`, `created_at`, `updated_at`) VALUES
+(6, 9, 1, 13, '2024-03-05 12:32:13', '2024-03-05 12:32:13'),
+(7, 9, 8, 10, '2024-03-05 12:32:13', '2024-03-05 12:32:13'),
+(8, 10, 8, 10, '2024-03-06 11:25:21', '2024-03-06 11:25:21'),
+(10, 13, 1, 3, '2024-03-19 13:21:49', '2024-03-19 13:21:49'),
+(11, 13, 8, 10, '2024-03-19 13:21:49', '2024-03-19 13:21:49');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_photos`
+--
+
+CREATE TABLE `product_photos` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `photo` varchar(255) DEFAULT NULL,
+  `is_primary` tinyint(4) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `product_photos`
+--
+
+INSERT INTO `product_photos` (`id`, `product_id`, `photo`, `is_primary`, `created_at`, `updated_at`) VALUES
+(22, 13, 'i-phone-6XZxAgkPtoi4dkq.jpg', 1, '2024-03-19 13:22:25', '2024-03-19 13:22:25'),
+(23, 13, 'i-phone-iJKzfo5uTNeNLZZ.jpg', 0, '2024-03-19 13:22:26', '2024-03-19 13:22:26'),
+(24, 13, 'i-phone-8DX3uNdFJYrmX3F.jpg', 0, '2024-03-19 13:22:26', '2024-03-19 13:22:26');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_specifications`
+--
+
+CREATE TABLE `product_specifications` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `value` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `product_specifications`
+--
+
+INSERT INTO `product_specifications` (`id`, `product_id`, `name`, `value`, `created_at`, `updated_at`) VALUES
+(2, 9, 'display', '6 inch', '2024-03-05 12:32:13', '2024-03-05 12:32:13'),
+(3, 10, 'display', '6 inch', '2024-03-06 11:25:21', '2024-03-06 11:25:21'),
+(5, 13, 'display', '6 inch', '2024-03-19 13:21:49', '2024-03-19 13:21:49');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales_managers`
+--
+
+CREATE TABLE `sales_managers` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `contact` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `nid` varchar(255) DEFAULT NULL,
+  `bio` varchar(255) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT NULL,
+  `photo` varchar(255) DEFAULT NULL,
+  `nid_photo` varchar(255) DEFAULT NULL,
+  `shop_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sales_managers`
+--
+
+INSERT INTO `sales_managers` (`id`, `name`, `email`, `contact`, `password`, `nid`, `bio`, `status`, `photo`, `nid_photo`, `shop_id`, `user_id`, `created_at`, `updated_at`) VALUES
+(4, 'Mamun Khan', 'dhanmondifasion@gmail.com', '01738298777', '$2y$10$hFl/glEA9OdclBZI3HWbQe5DBKU2jyu4iuYZ2FB3sS9LRn71lGB/.', '43556576876876', 'vcxvxc', 1, '43556576876876-LvGkDWPDDADnxpB.png', '43556576876876-p9qpWA3kgR.webp', 1, 1, '2024-03-22 15:08:06', '2024-03-22 15:08:06');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shops`
+--
+
+CREATE TABLE `shops` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `contact` varchar(255) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT NULL,
+  `logo` varchar(255) DEFAULT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `shops`
+--
+
+INSERT INTO `shops` (`id`, `name`, `email`, `contact`, `status`, `logo`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, 'Dhanmondi Shop', 'dhanmondifasion@gmail.com', '01643434344', 1, '-4Gh6LIa9NWdtG2r.jpg', 1, '2024-03-16 13:21:55', '2024-03-16 14:09:13');
 
 -- --------------------------------------------------------
 
@@ -4440,8 +4746,36 @@ CREATE TABLE `suppliers` (
 
 INSERT INTO `suppliers` (`id`, `name`, `email`, `contact`, `status`, `logo`, `user_id`, `created_at`, `updated_at`) VALUES
 (10, 'NGIT LTD Update', 'masud@gmail.com', '017382987777', 1, '-hq9NpuY5c5bCQc4.jpg', 1, '2023-11-05 12:16:02', '2023-11-20 12:33:27'),
-(11, 'Intech Ltd Update', 'kamal@gmail.com', '01736546445444', 1, '-JLY2k5nxJvARq5Y.jpg', 1, '2023-11-05 12:27:25', '2023-11-20 12:31:45'),
-(12, 'Soft Tech Ltd', 'softtect@gmail.com', '017382987666', 1, '-pAZcbCi5LkBhyVN.jpg', 1, '2023-11-11 08:27:43', '2023-11-11 08:27:43');
+(11, 'Intech Ltd Update', 'kamal@gmail.com', '01736546445444', 1, '-JLY2k5nxJvARq5Y.jpg', 1, '2023-11-05 12:27:25', '2023-11-20 12:31:45');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transactions`
+--
+
+CREATE TABLE `transactions` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `trans_id` varchar(255) DEFAULT NULL,
+  `order_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `customer_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `payment_method_id` bigint(20) UNSIGNED NOT NULL,
+  `transactionable_type` varchar(255) NOT NULL,
+  `transactionable_id` bigint(20) UNSIGNED NOT NULL,
+  `transaction_type` tinyint(4) NOT NULL COMMENT '1=Credit,2=Debit',
+  `status` tinyint(4) NOT NULL COMMENT '1=Success,2=Debit',
+  `amount` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `transactions`
+--
+
+INSERT INTO `transactions` (`id`, `trans_id`, `order_id`, `customer_id`, `payment_method_id`, `transactionable_type`, `transactionable_id`, `transaction_type`, `status`, `amount`, `created_at`, `updated_at`) VALUES
+(1, 'trans132', 47, 3, 2, 'App\\Models\\SalesManager', 4, 1, 1, 15000, '2024-03-26 15:04:26', '2024-03-26 15:04:26'),
+(2, NULL, 48, 3, 1, 'App\\Models\\SalesManager', 4, 1, 1, 15000, '2024-03-26 15:04:55', '2024-03-26 15:04:55');
 
 -- --------------------------------------------------------
 
@@ -4468,7 +4802,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `phone`, `email_verified_at`, `password`, `photo`, `role_id`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', 'admin@gmail.com', '01738298777', NULL, '$2y$10$Kgh96M9eYOC1yb53iqyhueDwwVgh7vSMwSaAnEIfL4zxp1ltEvPCa', NULL, '1', NULL, '2023-10-15 11:50:02', '2023-10-15 11:50:02');
+(1, 'Admin', 'admin@gmail.com', '01738298666', NULL, '$2y$10$Kgh96M9eYOC1yb53iqyhueDwwVgh7vSMwSaAnEIfL4zxp1ltEvPCa', NULL, '1', NULL, '2023-10-15 11:50:02', '2023-10-15 11:50:02');
 
 --
 -- Indexes for dumped tables
@@ -4526,6 +4860,13 @@ ALTER TABLE `countries`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `customers`
+--
+ALTER TABLE `customers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `customers_user_id_foreign` (`user_id`);
+
+--
 -- Indexes for table `districts`
 --
 ALTER TABLE `districts`
@@ -4552,10 +4893,36 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `orders_customer_id_foreign` (`customer_id`),
+  ADD KEY `orders_sales_manager_id_foreign` (`sales_manager_id`),
+  ADD KEY `orders_shop_id_foreign` (`shop_id`),
+  ADD KEY `orders_payment_method_id_foreign` (`payment_method_id`),
+  ADD KEY `orders_order_number_index` (`order_number`);
+
+--
+-- Indexes for table `order_details`
+--
+ALTER TABLE `order_details`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_details_order_id_foreign` (`order_id`),
+  ADD KEY `order_details_product_id_foreign` (`product_id`),
+  ADD KEY `order_details_category_id_foreign` (`category_id`);
+
+--
 -- Indexes for table `password_reset_tokens`
 --
 ALTER TABLE `password_reset_tokens`
   ADD PRIMARY KEY (`email`);
+
+--
+-- Indexes for table `payment_methods`
+--
+ALTER TABLE `payment_methods`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `personal_access_tokens`
@@ -4564,6 +4931,51 @@ ALTER TABLE `personal_access_tokens`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `products_category_id_foreign` (`category_id`);
+
+--
+-- Indexes for table `product_attributes`
+--
+ALTER TABLE `product_attributes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_attributes_product_id_foreign` (`product_id`),
+  ADD KEY `product_attributes_attribute_id_foreign` (`attribute_id`),
+  ADD KEY `product_attributes_attribute_value_id_foreign` (`attribute_value_id`);
+
+--
+-- Indexes for table `product_photos`
+--
+ALTER TABLE `product_photos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_photos_product_id_foreign` (`product_id`);
+
+--
+-- Indexes for table `product_specifications`
+--
+ALTER TABLE `product_specifications`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_specifications_product_id_foreign` (`product_id`);
+
+--
+-- Indexes for table `sales_managers`
+--
+ALTER TABLE `sales_managers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `sales_managers_shop_id_foreign` (`shop_id`),
+  ADD KEY `sales_managers_user_id_foreign` (`user_id`);
+
+--
+-- Indexes for table `shops`
+--
+ALTER TABLE `shops`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `shops_user_id_foreign` (`user_id`);
 
 --
 -- Indexes for table `sub_categories`
@@ -4581,6 +4993,14 @@ ALTER TABLE `suppliers`
   ADD KEY `suppliers_user_id_foreign` (`user_id`);
 
 --
+-- Indexes for table `transactions`
+--
+ALTER TABLE `transactions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `transactions_payment_method_id_foreign` (`payment_method_id`),
+  ADD KEY `transactions_transactionable_type_transactionable_id_index` (`transactionable_type`,`transactionable_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -4596,7 +5016,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `addresses`
 --
 ALTER TABLE `addresses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `areas`
@@ -4620,19 +5040,25 @@ ALTER TABLE `attribute_values`
 -- AUTO_INCREMENT for table `brands`
 --
 ALTER TABLE `brands`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `countries`
 --
 ALTER TABLE `countries`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=251;
+
+--
+-- AUTO_INCREMENT for table `customers`
+--
+ALTER TABLE `customers`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `districts`
@@ -4656,13 +5082,67 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+
+--
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+
+--
+-- AUTO_INCREMENT for table `order_details`
+--
+ALTER TABLE `order_details`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+
+--
+-- AUTO_INCREMENT for table `payment_methods`
+--
+ALTER TABLE `payment_methods`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=175;
+
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `product_attributes`
+--
+ALTER TABLE `product_attributes`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `product_photos`
+--
+ALTER TABLE `product_photos`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- AUTO_INCREMENT for table `product_specifications`
+--
+ALTER TABLE `product_specifications`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `sales_managers`
+--
+ALTER TABLE `sales_managers`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `shops`
+--
+ALTER TABLE `shops`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `sub_categories`
@@ -4675,6 +5155,12 @@ ALTER TABLE `sub_categories`
 --
 ALTER TABLE `suppliers`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT for table `transactions`
+--
+ALTER TABLE `transactions`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -4725,10 +5211,72 @@ ALTER TABLE `categories`
   ADD CONSTRAINT `categories_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `customers`
+--
+ALTER TABLE `customers`
+  ADD CONSTRAINT `customers_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `districts`
 --
 ALTER TABLE `districts`
   ADD CONSTRAINT `districts_division_id_foreign` FOREIGN KEY (`division_id`) REFERENCES `divisions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_customer_id_foreign` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `orders_payment_method_id_foreign` FOREIGN KEY (`payment_method_id`) REFERENCES `payment_methods` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `orders_sales_manager_id_foreign` FOREIGN KEY (`sales_manager_id`) REFERENCES `sales_managers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `orders_shop_id_foreign` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `order_details`
+--
+ALTER TABLE `order_details`
+  ADD CONSTRAINT `order_details_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `order_details_order_id_foreign` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `order_details_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `products_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `product_attributes`
+--
+ALTER TABLE `product_attributes`
+  ADD CONSTRAINT `product_attributes_attribute_id_foreign` FOREIGN KEY (`attribute_id`) REFERENCES `attributes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `product_attributes_attribute_value_id_foreign` FOREIGN KEY (`attribute_value_id`) REFERENCES `attribute_values` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `product_attributes_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `product_photos`
+--
+ALTER TABLE `product_photos`
+  ADD CONSTRAINT `product_photos_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `product_specifications`
+--
+ALTER TABLE `product_specifications`
+  ADD CONSTRAINT `product_specifications_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `sales_managers`
+--
+ALTER TABLE `sales_managers`
+  ADD CONSTRAINT `sales_managers_shop_id_foreign` FOREIGN KEY (`shop_id`) REFERENCES `shops` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `sales_managers_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `shops`
+--
+ALTER TABLE `shops`
+  ADD CONSTRAINT `shops_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `sub_categories`
@@ -4742,6 +5290,12 @@ ALTER TABLE `sub_categories`
 --
 ALTER TABLE `suppliers`
   ADD CONSTRAINT `suppliers_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `transactions`
+--
+ALTER TABLE `transactions`
+  ADD CONSTRAINT `transactions_payment_method_id_foreign` FOREIGN KEY (`payment_method_id`) REFERENCES `payment_methods` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
