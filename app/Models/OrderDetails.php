@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Manager\priceManager;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -34,6 +35,7 @@ class OrderDetails extends Model
                'discount_fixed'=>$product->discount_fixed,
                'discount_percent'=>$product->discount_percent,
                'price'=>$product->price,
+               'selling_price'=>priceManager::calculate_selling_price($product->price,$product->discount_fixed,$product->discount_percent,$product->discount_start,$product->discount_end)['price'],
                'sku'=>$product->sku,
                'quantity'=>$product->quantity,
                'photo'=>$product->primary_photo?->photo,

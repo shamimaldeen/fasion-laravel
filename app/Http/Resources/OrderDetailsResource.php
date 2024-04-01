@@ -49,7 +49,8 @@ class OrderDetailsResource extends JsonResource
             'total'=>$this->total,
             'created_at'=> Carbon::parse($this->created_at)->format("d-m-Y"),
             'updated_at'=>$this->created_at != $this->updated_at? Carbon::parse($this->updated_at)->format("d-m-Y") : 'Not Updated' ,
-            'order_details'=> OrderDetailsListResource::collection($this->order_details)
+            'order_details'=> OrderDetailsListResource::collection($this->order_details),
+            'transactions'=> TransactionDetailsListResource::collection($this->transactions)
         ];
     }
 }

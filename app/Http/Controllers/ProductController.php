@@ -70,6 +70,7 @@ class ProductController extends Controller
               $data = $request->all();
               $data['slug'] = Str::slug($request->slug);
               $data['created_by_id'] = auth()->id();
+
               $product =  Product::create($data);
 
             if ($request->has('attributes')){
