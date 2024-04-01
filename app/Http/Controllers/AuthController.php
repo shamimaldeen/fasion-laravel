@@ -17,7 +17,6 @@ class AuthController extends Controller
   final  public  function  login(AuthRequest $request): JsonResponse
     {
         $user = (new User())->getUserByEmailOrPhone($request->all());
-
         if ($user && Hash::check($request->input('password'),$user->password))
         {
             $user_data['token'] = $user->createToken($user->email)->plainTextToken;
