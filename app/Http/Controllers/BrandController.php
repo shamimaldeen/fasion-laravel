@@ -155,4 +155,10 @@ class BrandController extends Controller
             'cls' => "warning"
         ],200);
     }
+
+    public function getAllBrand()
+    {
+        $brands =  Brand::where('status',1)->select('id','name')->get();
+        return $brands;
+    }
 }

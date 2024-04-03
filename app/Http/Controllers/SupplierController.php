@@ -60,7 +60,7 @@ class SupplierController extends Controller
             DB::beginTransaction();
             if($request->hasFile('logo')){
                 $image = $request->file('logo');
-                $imageName =$request->slug.'-'.Str::random(15).".".$image->getClientOriginalExtension();
+                $imageName =$request->name.'-'.Str::random(15).".".$image->getClientOriginalExtension();
                 $image->move(public_path(Supplier::image_path),$imageName);
             }else{
                 $imageName = null;
@@ -120,7 +120,7 @@ class SupplierController extends Controller
                     }
                 }
                 $logo = $request->file('logo');
-                $imageName =$request->slug.'-'.Str::random(15).".".$logo->getClientOriginalExtension();
+                $imageName =$request->name.'-'.Str::random(15).".".$logo->getClientOriginalExtension();
                 $logo->move(public_path(Supplier::image_path),$imageName);
             }else{
                 $imageName = $supplierData->logo;
@@ -172,5 +172,12 @@ class SupplierController extends Controller
             'msg' => "Supplier Deleted Successfully.",
             'cls' => "warning"
         ],200);
+    }
+
+
+    public function getAllSuppliers()
+    {
+        $suppliers =  Supplier::where('status',1)->select('id','name','contact')->orderBy('name','ASC')->get();
+        return $suppliers;
     }
 }

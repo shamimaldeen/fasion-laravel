@@ -108,4 +108,10 @@ class AttributeController extends Controller
             'cls' => "warning"
         ],200);
     }
+
+    public function getAllAttributes()
+    {
+        $attributes =  Attribute::with("value:id,name,attribute_id")->where('status',1)->select('id','name')->get();
+        return $attributes;
+    }
 }
