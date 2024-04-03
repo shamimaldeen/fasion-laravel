@@ -29,6 +29,7 @@ class Order extends Model
         $order = self::query()->create($order_data['order_data']);
         (new OrderDetails())->storeOrderDetails($order_data['order_details'],$order);
         (new Transaction())->storeTransaction($input,$order,$auth);
+        return $order;
 
     }
 
@@ -79,6 +80,11 @@ class Order extends Model
     public function order_details()
     {
         return $this->hasMany(OrderDetails::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
     }
 
 }

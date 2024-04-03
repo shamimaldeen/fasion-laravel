@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 31, 2024 at 10:17 PM
+-- Generation Time: Apr 01, 2024 at 10:34 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -4387,8 +4387,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (29, '2024_03_20_183528_create_customers_table', 16),
 (30, '2024_03_24_195002_create_payment_methods_table', 17),
 (32, '2024_03_24_199737_create_orders_table', 18),
-(34, '2024_03_25_181551_create_order_details_table', 19),
-(45, '2024_03_25_205951_create_transactions_table', 20);
+(45, '2024_03_25_205951_create_transactions_table', 20),
+(46, '2024_03_25_181551_create_order_details_table', 21);
 
 -- --------------------------------------------------------
 
@@ -4421,8 +4421,13 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `customer_id`, `sales_manager_id`, `shop_id`, `sub_total`, `quantity`, `discount`, `total`, `paid_amount`, `due_amount`, `order_number`, `order_status`, `payment_method_id`, `payment_status`, `shipment_status`, `created_at`, `updated_at`) VALUES
-(47, 3, 4, 1, 15000, 1, 0, 15000, 15000, 0, 'FBD1260324762', 3, 2, 1, 1, '2024-03-26 15:04:26', '2024-03-26 15:04:26'),
-(48, 3, 4, 1, 15000, 1, 0, 15000, 15000, 0, 'FBD1260324312', 3, 1, 1, 1, '2024-03-26 15:04:55', '2024-03-26 15:04:55');
+(52, 2, 4, 1, 110000, 3, 1100, 108900, 100000, 8900, 'FBD1010424246', 3, 2, 2, 1, '2024-04-01 12:18:08', '2024-04-01 12:18:08'),
+(53, 3, 4, 1, 20000, 2, 2200, 17800, 17000, 800, 'FBD1010424774', 3, 1, 2, 1, '2024-04-01 14:15:10', '2024-04-01 14:15:10'),
+(54, 2, 4, 1, 50000, 1, 0, 50000, 50000, 0, 'FBD1010424205', 3, 1, 1, 1, '2024-04-01 14:16:46', '2024-04-01 14:16:46'),
+(55, 3, 4, 1, 50000, 1, 0, 50000, 50000, 0, 'FBD1010424505', 3, 1, 1, 1, '2024-04-01 14:21:33', '2024-04-01 14:21:33'),
+(56, 3, 4, 1, 20000, 2, 2200, 17800, 17800, 0, 'FBD1010424691', 3, 1, 1, 1, '2024-04-01 14:25:51', '2024-04-01 14:25:51'),
+(57, 2, 4, 1, 10000, 1, 1100, 8900, 8900, 0, 'FBD1010424126', 3, 1, 1, 1, '2024-04-01 14:27:24', '2024-04-01 14:27:24'),
+(58, 3, 4, 1, 15000, 1, 0, 15000, 10000, 5000, 'FBD1010424877', 3, 1, 2, 1, '2024-04-01 14:30:10', '2024-04-01 14:30:10');
 
 -- --------------------------------------------------------
 
@@ -4444,6 +4449,7 @@ CREATE TABLE `order_details` (
   `discount_start` timestamp NULL DEFAULT NULL,
   `discount_end` timestamp NULL DEFAULT NULL,
   `price` int(11) DEFAULT NULL,
+  `selling_price` int(11) DEFAULT NULL,
   `brand_id` bigint(20) UNSIGNED DEFAULT NULL,
   `category_id` bigint(20) UNSIGNED NOT NULL,
   `sub_category_id` bigint(20) UNSIGNED DEFAULT NULL,
@@ -4456,9 +4462,15 @@ CREATE TABLE `order_details` (
 -- Dumping data for table `order_details`
 --
 
-INSERT INTO `order_details` (`id`, `order_id`, `product_id`, `quantity`, `name`, `sku`, `photo`, `cost`, `discount_fixed`, `discount_percent`, `discount_start`, `discount_end`, `price`, `brand_id`, `category_id`, `sub_category_id`, `supplier_id`, `created_at`, `updated_at`) VALUES
-(45, 47, 10, 1, 'Oppo-phone', 'oppo-15', NULL, 10000, 500, 10, '2024-03-06 17:24:00', '2024-03-06 17:25:00', 15000, 1, 27, 3, 10, '2024-03-26 15:04:26', '2024-03-26 15:04:26'),
-(46, 48, 10, 1, 'Oppo-phone', 'oppo-15', NULL, 10000, 500, 10, '2024-03-06 17:24:00', '2024-03-06 17:25:00', 15000, 1, 27, 3, 10, '2024-03-26 15:04:55', '2024-03-26 15:04:55');
+INSERT INTO `order_details` (`id`, `order_id`, `product_id`, `quantity`, `name`, `sku`, `photo`, `cost`, `discount_fixed`, `discount_percent`, `discount_start`, `discount_end`, `price`, `selling_price`, `brand_id`, `category_id`, `sub_category_id`, `supplier_id`, `created_at`, `updated_at`) VALUES
+(1, 52, 13, 2, 'I phone', 'ip-15iTT', 'i-phone-6XZxAgkPtoi4dkq.jpg', 45000, 1000, 10, '2024-02-29 19:21:00', '2024-03-30 19:21:00', 50000, 50000, 3, 27, 3, 11, '2024-04-01 12:18:08', '2024-04-01 12:18:08'),
+(2, 52, 14, 1, 'Samsung Mobile', 'Et velit vel corpori', 'samsung-mobile-SOhmF9yNp1j9ivh.jpg', 8000, 100, 10, '2024-02-29 23:29:00', '2024-05-31 04:20:00', 10000, 8900, 3, 27, 3, 10, '2024-04-01 12:18:08', '2024-04-01 12:18:08'),
+(3, 53, 14, 2, 'Samsung Mobile', 'Et velit vel corpori', 'samsung-mobile-SOhmF9yNp1j9ivh.jpg', 8000, 100, 10, '2024-02-29 23:29:00', '2024-05-31 04:20:00', 10000, 8900, 3, 27, 3, 10, '2024-04-01 14:15:10', '2024-04-01 14:15:10'),
+(4, 54, 13, 1, 'I phone', 'ip-15iTT', 'i-phone-6XZxAgkPtoi4dkq.jpg', 45000, 1000, 10, '2024-02-29 19:21:00', '2024-03-30 19:21:00', 50000, 50000, 3, 27, 3, 11, '2024-04-01 14:16:46', '2024-04-01 14:16:46'),
+(5, 55, 13, 1, 'I phone', 'ip-15iTT', 'i-phone-6XZxAgkPtoi4dkq.jpg', 45000, 1000, 10, '2024-02-29 19:21:00', '2024-03-30 19:21:00', 50000, 50000, 3, 27, 3, 11, '2024-04-01 14:21:33', '2024-04-01 14:21:33'),
+(6, 56, 14, 2, 'Samsung Mobile', 'Et velit vel corpori', 'samsung-mobile-SOhmF9yNp1j9ivh.jpg', 8000, 100, 10, '2024-02-29 23:29:00', '2024-05-31 04:20:00', 10000, 8900, 3, 27, 3, 10, '2024-04-01 14:25:51', '2024-04-01 14:25:51'),
+(7, 57, 14, 1, 'Samsung Mobile', 'Et velit vel corpori', 'samsung-mobile-SOhmF9yNp1j9ivh.jpg', 8000, 100, 10, '2024-02-29 23:29:00', '2024-05-31 04:20:00', 10000, 8900, 3, 27, 3, 10, '2024-04-01 14:27:24', '2024-04-01 14:27:24'),
+(8, 58, 10, 1, 'Oppo-phone', 'oppo-15', NULL, 10000, 500, 10, '2024-03-06 17:24:00', '2024-03-06 17:25:00', 15000, 15000, 1, 27, 3, 10, '2024-04-01 14:30:10', '2024-04-01 14:30:10');
 
 -- --------------------------------------------------------
 
@@ -4523,8 +4535,7 @@ CREATE TABLE `personal_access_tokens` (
 INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
 (125, 'App\\Models\\SalesManager', 2, 'mamun@gmail.com', 'ae4f79c7f29a84b62eee045bdf1c0dc668a7c4d1552ae78320ed42ab0eb7330f', '[\"*\"]', NULL, NULL, '2024-03-22 14:28:43', '2024-03-22 14:28:43'),
 (126, 'App\\Models\\SalesManager', 2, 'mamun@gmail.com', '92b1937becb61357bb1890143b1820832c019f4ed7038bd852628015185ef1cd', '[\"*\"]', NULL, NULL, '2024-03-22 14:28:59', '2024-03-22 14:28:59'),
-(173, 'App\\Models\\SalesManager', 4, 'dhanmondifasion@gmail.com', 'fd62a09dbcc743319f59041586b0c119a1330c7901740c72f4bb35a5a20949b9', '[\"*\"]', NULL, NULL, '2024-03-23 09:22:51', '2024-03-23 09:22:51'),
-(174, 'App\\Models\\SalesManager', 4, 'dhanmondifasion@gmail.com', '1c2d8af6d50798455325e7d7a981cc1c556883b63e6017b8f8301db48abc78f0', '[\"*\"]', '2024-03-31 14:09:05', NULL, '2024-03-23 09:24:04', '2024-03-31 14:09:05');
+(178, 'App\\Models\\SalesManager', 4, 'dhanmondifasion@gmail.com', 'bd3bb825df3111c72816f36482df64e1362d6f733fac6a8da61ec0852c509889', '[\"*\"]', '2024-04-01 14:30:12', NULL, '2024-04-01 11:36:01', '2024-04-01 14:30:12');
 
 -- --------------------------------------------------------
 
@@ -4563,8 +4574,9 @@ CREATE TABLE `products` (
 
 INSERT INTO `products` (`id`, `name`, `slug`, `brand_id`, `category_id`, `sub_category_id`, `supplier_id`, `country_id`, `cost`, `price`, `discount_percent`, `discount_fixed`, `discount_start`, `discount_end`, `stock`, `sku`, `description`, `created_by_id`, `updated_by_id`, `status`, `created_at`, `updated_at`) VALUES
 (9, 'Samsung Phone', 'samsung-phone', 1, 27, 3, 11, 93, 10000, 15000, 10, 1000, '2024-02-29 18:31:00', '2024-03-30 18:31:00', 99, 'samsung-15', 'This is Samsumg Phone', 1, NULL, 1, '2024-03-05 12:32:13', '2024-03-26 14:07:45'),
-(10, 'Oppo-phone', 'oppo-phone', 1, 27, 3, 10, 93, 10000, 15000, 10, 500, '2024-03-06 17:24:00', '2024-03-06 17:25:00', 61, 'oppo-15', 'test', 1, NULL, 1, '2024-03-06 11:25:21', '2024-03-26 15:04:55'),
-(13, 'I phone', 'i-phone', 3, 27, 3, 11, 19, 45000, 50000, 10, 1000, '2024-02-29 19:21:00', '2024-03-30 19:21:00', 2, 'ip-15iTT', 'i Phone product', 1, NULL, 1, '2024-03-19 13:21:49', '2024-03-26 14:14:05');
+(10, 'Oppo-phone', 'oppo-phone', 1, 27, 3, 10, 93, 10000, 15000, 10, 500, '2024-03-06 17:24:00', '2024-03-06 17:25:00', 60, 'oppo-15', 'test', 1, NULL, 1, '2024-03-06 11:25:21', '2024-04-01 14:30:10'),
+(13, 'I phone', 'i-phone', 3, 27, 3, 11, 19, 45000, 50000, 10, 1000, '2024-02-29 19:21:00', '2024-03-30 19:21:00', 96, 'ip-15iTT', 'i Phone product', 1, NULL, 1, '2024-03-19 13:21:49', '2024-04-01 14:21:33'),
+(14, 'Samsung Mobile', 'samsung-mobile', 3, 27, 3, 10, 87, 8000, 10000, 10, 100, '2024-02-29 23:29:00', '2024-05-31 04:20:00', 94, 'Et velit vel corpori', 'Ut dolor quo molesti', 1, NULL, 1, '2024-04-01 11:24:53', '2024-04-01 14:27:24');
 
 -- --------------------------------------------------------
 
@@ -4590,7 +4602,8 @@ INSERT INTO `product_attributes` (`id`, `product_id`, `attribute_id`, `attribute
 (7, 9, 8, 10, '2024-03-05 12:32:13', '2024-03-05 12:32:13'),
 (8, 10, 8, 10, '2024-03-06 11:25:21', '2024-03-06 11:25:21'),
 (10, 13, 1, 3, '2024-03-19 13:21:49', '2024-03-19 13:21:49'),
-(11, 13, 8, 10, '2024-03-19 13:21:49', '2024-03-19 13:21:49');
+(11, 13, 8, 10, '2024-03-19 13:21:49', '2024-03-19 13:21:49'),
+(12, 14, 1, 3, '2024-04-01 11:24:53', '2024-04-01 11:24:53');
 
 -- --------------------------------------------------------
 
@@ -4614,7 +4627,10 @@ CREATE TABLE `product_photos` (
 INSERT INTO `product_photos` (`id`, `product_id`, `photo`, `is_primary`, `created_at`, `updated_at`) VALUES
 (22, 13, 'i-phone-6XZxAgkPtoi4dkq.jpg', 1, '2024-03-19 13:22:25', '2024-03-19 13:22:25'),
 (23, 13, 'i-phone-iJKzfo5uTNeNLZZ.jpg', 0, '2024-03-19 13:22:26', '2024-03-19 13:22:26'),
-(24, 13, 'i-phone-8DX3uNdFJYrmX3F.jpg', 0, '2024-03-19 13:22:26', '2024-03-19 13:22:26');
+(24, 13, 'i-phone-8DX3uNdFJYrmX3F.jpg', 0, '2024-03-19 13:22:26', '2024-03-19 13:22:26'),
+(25, 14, 'samsung-mobile-SOhmF9yNp1j9ivh.jpg', 1, '2024-04-01 11:25:20', '2024-04-01 11:25:20'),
+(26, 14, 'samsung-mobile-V7qxxOpi1EhAK7v.jpg', 0, '2024-04-01 11:25:20', '2024-04-01 11:25:20'),
+(27, 14, 'samsung-mobile-iqeEBAIiaR4iokN.jpg', 0, '2024-04-01 11:25:21', '2024-04-01 11:25:21');
 
 -- --------------------------------------------------------
 
@@ -4638,7 +4654,8 @@ CREATE TABLE `product_specifications` (
 INSERT INTO `product_specifications` (`id`, `product_id`, `name`, `value`, `created_at`, `updated_at`) VALUES
 (2, 9, 'display', '6 inch', '2024-03-05 12:32:13', '2024-03-05 12:32:13'),
 (3, 10, 'display', '6 inch', '2024-03-06 11:25:21', '2024-03-06 11:25:21'),
-(5, 13, 'display', '6 inch', '2024-03-19 13:21:49', '2024-03-19 13:21:49');
+(5, 13, 'display', '6 inch', '2024-03-19 13:21:49', '2024-03-19 13:21:49'),
+(6, 14, 'displlay', '6 inch', '2024-04-01 11:24:53', '2024-04-01 11:24:53');
 
 -- --------------------------------------------------------
 
@@ -4774,8 +4791,13 @@ CREATE TABLE `transactions` (
 --
 
 INSERT INTO `transactions` (`id`, `trans_id`, `order_id`, `customer_id`, `payment_method_id`, `transactionable_type`, `transactionable_id`, `transaction_type`, `status`, `amount`, `created_at`, `updated_at`) VALUES
-(1, 'trans132', 47, 3, 2, 'App\\Models\\SalesManager', 4, 1, 1, 15000, '2024-03-26 15:04:26', '2024-03-26 15:04:26'),
-(2, NULL, 48, 3, 1, 'App\\Models\\SalesManager', 4, 1, 1, 15000, '2024-03-26 15:04:55', '2024-03-26 15:04:55');
+(4, 'trans132', 52, 2, 2, 'App\\Models\\SalesManager', 4, 1, 1, 100000, '2024-04-01 12:18:08', '2024-04-01 12:18:08'),
+(5, NULL, 53, 3, 1, 'App\\Models\\SalesManager', 4, 1, 1, 17000, '2024-04-01 14:15:10', '2024-04-01 14:15:10'),
+(6, NULL, 54, 2, 1, 'App\\Models\\SalesManager', 4, 1, 1, 50000, '2024-04-01 14:16:46', '2024-04-01 14:16:46'),
+(7, NULL, 55, 3, 1, 'App\\Models\\SalesManager', 4, 1, 1, 50000, '2024-04-01 14:21:33', '2024-04-01 14:21:33'),
+(8, NULL, 56, 3, 1, 'App\\Models\\SalesManager', 4, 1, 1, 17800, '2024-04-01 14:25:51', '2024-04-01 14:25:51'),
+(9, NULL, 57, 2, 1, 'App\\Models\\SalesManager', 4, 1, 1, 8900, '2024-04-01 14:27:24', '2024-04-01 14:27:24'),
+(10, NULL, 58, 3, 1, 'App\\Models\\SalesManager', 4, 1, 1, 10000, '2024-04-01 14:30:10', '2024-04-01 14:30:10');
 
 -- --------------------------------------------------------
 
@@ -5082,19 +5104,19 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `payment_methods`
@@ -5106,31 +5128,31 @@ ALTER TABLE `payment_methods`
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=175;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=179;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `product_attributes`
 --
 ALTER TABLE `product_attributes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `product_photos`
 --
 ALTER TABLE `product_photos`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `product_specifications`
 --
 ALTER TABLE `product_specifications`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `sales_managers`
@@ -5160,7 +5182,7 @@ ALTER TABLE `suppliers`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `users`

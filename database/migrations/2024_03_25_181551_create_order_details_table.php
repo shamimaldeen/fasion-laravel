@@ -25,6 +25,7 @@ return new class extends Migration
             $table->timestamp('discount_start')->nullable();
             $table->timestamp('discount_end')->nullable();
             $table->integer('price')->nullable();
+            $table->integer('selling_price')->nullable();
             $table->unsignedBigInteger('brand_id')->nullable();
             $table->foreignId('category_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->unsignedBigInteger('sub_category_id')->nullable();

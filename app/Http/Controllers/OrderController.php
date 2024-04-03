@@ -57,7 +57,8 @@ class OrderController extends Controller
             return response()->json([
                 'msg' => "Order Placed successfully.",
                 'cls' => "success",
-                'flag'=>1
+                'flag'=>1,
+                'order_id'=>$order->id,
             ],200);
 
         } catch (\Exception $e) {
@@ -76,7 +77,17 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-         $order->load('customer','sales_manager','shop','payment_method','order_details');
+         $order->load(
+             'customer',
+             'sales_manager',
+             'shop',
+             'payment_method',
+             'order_details',
+             'transactions',
+             'transactions.customer',
+             'transactions.payment_method',
+             'transactions.transactionable',
+         );
          return new OrderDetailsResource($order);
     }
 
