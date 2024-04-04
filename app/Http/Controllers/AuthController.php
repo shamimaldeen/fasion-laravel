@@ -18,8 +18,6 @@ class AuthController extends Controller
      */
     public  function  login(AuthRequest $request)
     {
-
-
         if ($request->user_type == 1){
             $user = (new User())->getUserByEmailOrPhone($request->all());
             $contact = $user->phone;

@@ -72,6 +72,9 @@ Route::group(['middleware' => ['auth:admin,sales_manager']], function () {
     Route::apiResource('customer', CustomerController::class);
     Route::apiResource('order', OrderController::class);
     Route::get('/get-payment-methods-data',[PaymentMethodController::class,'getPaymentMethodsData']);
+    Route::get('/get-all-category',[CategoryController::class,'getAllCategory']);
+    Route::get('/get-all-sub-category/{category_id}',[SubCategoryController::class,'getAllSubCategory']);
+    Route::get('/get-barcode-product-search',[ProductController::class,'get_barcode_product_search']);
 });
 Route::group(['middleware' => ['auth:sales_manager']], function () {
    // Route::apiResource('product', ProductController::class);
