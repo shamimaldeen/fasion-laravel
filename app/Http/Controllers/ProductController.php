@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductBarcodeListResource;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\ProductViewResource;
 use App\Models\Address;
@@ -187,4 +188,25 @@ class ProductController extends Controller
             'cls' => "warning"
         ],200);
     }
+
+
+    public function get_barcode_product_search(Request $request)
+    {
+        $query = Product::query()->select('id','name','sku','price','discount_start','discount_end','discount_fixed','discount_percent');
+        if ($request->name)
+         {
+            $query->where('name','like','%'.$request->name.'%');
+         }
+        if ($request->category_id)
+        {
+            $query->where('category_id',$request->category_id);
+        }
+        if ($request->sub_category_id)
+        {
+            $query->where('sub_category_id',$request->sub_category_id);
+        }
+        $products = $query->get();
+        return ProductBarcodeListResource::collection($products);
+    }
+
 }
