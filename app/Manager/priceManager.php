@@ -30,5 +30,10 @@ class priceManager{
       return ['price'=>$price-$discount,'discount'=>$discount,'symbol'=>self::Currency_Symbol];
   }
 
+  public static function priceFormat(int $price):string
+  {
+      return number_format($price,2).self::Currency_Symbol;
+  }
+
 
 }

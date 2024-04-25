@@ -6,6 +6,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ProductPhotoController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SalesManagerController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SubCategoryController;
@@ -75,7 +76,11 @@ Route::group(['middleware' => ['auth:admin,sales_manager']], function () {
     Route::get('/get-all-category',[CategoryController::class,'getAllCategory']);
     Route::get('/get-all-sub-category/{category_id}',[SubCategoryController::class,'getAllSubCategory']);
     Route::get('/get-barcode-product-search',[ProductController::class,'get_barcode_product_search']);
+    Route::get('/get-report',[ReportController::class,'index']);
+
 });
+
+
 Route::group(['middleware' => ['auth:sales_manager']], function () {
    // Route::apiResource('product', ProductController::class);
 });

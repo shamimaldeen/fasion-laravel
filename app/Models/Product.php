@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Product extends Model
 {
@@ -86,6 +87,13 @@ class Product extends Model
     public function getProductById(int $id)
     {
           return self::query()->with('primary_photo')->findOrFail($id);
+    }
+
+    public function getAllProduct($columns =['*'])
+    {
+        $products = DB::table('products')->select($columns)->get();
+        return collect($products);
+
     }
 
 }

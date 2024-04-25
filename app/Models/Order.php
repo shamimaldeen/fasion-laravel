@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Manager\OrderManager;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Order extends Model
 {
@@ -85,6 +86,16 @@ class Order extends Model
     public function transactions()
     {
         return $this->hasMany(Transaction::class);
+    }
+
+    public  function getAllOrderReportData( bool $is_admin,int $sales_admin_id,$columns = ['*'])
+    {
+        $query =  DB::table('orders')->select($columns);
+        if (!$is_admin){
+            $query->where('sales_manager_id',$sales_admin_id);
+        }
+        $orders  =$query->get();
+        return collect($orders);
     }
 
 }
